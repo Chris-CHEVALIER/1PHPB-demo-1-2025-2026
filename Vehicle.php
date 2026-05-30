@@ -10,17 +10,22 @@ class Vehicle
     private string $color;
     private int $horses;
     private string $image;
+    private float $price;
 
     # Méthodes
-    public function __construct(int $id, string $brand, string $model, int $doorsNumber, string $color, int $horses, string $image)
+    public function __construct(array $data)
     {
-        $this->setId($id);
-        $this->setBrand($brand);
-        $this->setModel($model);
-        $this->setDoorsNumber($doorsNumber);
-        $this->setColor($color);
-        $this->setHorses($horses);
-        $this->setImage($image);
+        $this->hydrate($data);
+    }
+
+    public function hydrate(array $data)
+    {
+        foreach ($data as $key => $value) {
+            $method = "set" . ucfirst($key); // setId, setBrand, setModel, etc.
+            if (method_exists($this, $method)) {
+                $this->$method($value); // setId(1), setBrand("Peugeot"), setModel("206"), etc.
+            }
+        }
     }
 
     public function getId(): int
@@ -97,6 +102,17 @@ class Vehicle
     public function setImage(string $image): self
     {
         $this->image = $image;
+        return $this;
+    }
+
+    public function getPrice(): float
+    {
+        return $this->price;
+    }
+
+    public function setPrice(float $price): self
+    {
+        $this->price = $price;
         return $this;
     }
 }
