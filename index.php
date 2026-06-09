@@ -12,8 +12,10 @@
           <li>Nombre de portes : <?= $vehicle->getDoorsNumber() ?></li>
           <li><b>Prix : <?= $vehicle->getPrice() ?> €</b></li>
         </ul>
-        <a href="./update.php?id=<?= $vehicle->getId() ?>" class="btn btn-warning">Modifier</a>
-        <a href="./delete.php?id=<?= $vehicle->getId() ?>" class="btn btn-danger">Supprimer</a>
+        <?php if ($_SESSION && $_SESSION["email"]): ?>
+          <a href="update.php?id=<?= $vehicle->getId() ?>" class="btn btn-warning">Modifier</a>
+          <a href="delete.php?id=<?= $vehicle->getId() ?>" class="btn btn-danger">Supprimer</a>
+        <?php endif ?>
       </div>
     </div>
   <?php endforeach ?>

@@ -1,5 +1,9 @@
 <?php require("header.php");
 
+if (!$_SESSION || !$_SESSION["email"]) {
+  echo "<script>window.location.href='index.php'</script>";
+}
+
 // Modification PHP
 $vehicle = $vehicleController->read($_GET["id"]);
 
@@ -11,7 +15,7 @@ if ($_POST) {
 
 ?>
 <h1>Modifier <?= $vehicle->getBrand() . " " . $vehicle->getModel() ?></h1>
-<form method="POST">
+<form method="POST" enctype="multipart/form-data">
   <label for="brand">Marque</label>
   <input type="text" value="<?= $vehicle->getBrand() ?>" class="form-control" name="brand" id="brand" placeholder="La marque" required minlength="3" maxlength="30">
   <label for="model">Modèle</label>
@@ -23,7 +27,7 @@ if ($_POST) {
   <label for="horses">Nombres de chevaux</label>
   <input type="number" value="<?= $vehicle->getHorses() ?>" class="form-control" name="horses" id="horses" placeholder="Nombres de chevaux du véhicule" required min="4" max="500">
   <label for="image">Image</label>
-  <input type="url" value="<?= $vehicle->getImage() ?>" class="form-control" name="image" id="image" placeholder="Image du véhicule" required>
+  <input type="file" value="<?= $vehicle->getImage() ?>" class="form-control" name="image" id="image" placeholder="Image du véhicule" required>
   <label for="price">Prix</label>
   <input type="number" value="<?= $vehicle->getPrice() ?>" class="form-control" name="price" id="price" placeholder="Prix du véhicule" required>
 
