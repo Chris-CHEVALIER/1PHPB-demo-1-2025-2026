@@ -1,9 +1,11 @@
 <?php
-include("header.php");
+require_once '../config.php';
+require_once ROOT . 'views/layout/header.php';
+
 if ($_POST) {
     $userController->create(new User($_POST));
     $_SESSION["email"] = $_POST["email"];
-    echo "<script>window.location.href='index.php'</script>";
+    echo "<script>window.location.href='../index.php'</script>";
 }
 ?>
 
@@ -20,5 +22,5 @@ if ($_POST) {
 </form>
 
 <?php
-include("footer.php")
+require_once ROOT . 'views/layout/footer.php';
 ?>

@@ -1,12 +1,13 @@
 <?php
-include("header.php");
+require_once '../config.php';
+require_once ROOT . 'views/layout/header.php';
 
 // Connexion utilisateur 
 if ($_POST) {
     $user = $userController->getByEmail($_POST["email"]);
     if ($user && password_verify($_POST["password"], $user->getPassword())) {
         $_SESSION["email"] = $_POST["email"];
-        echo "<script>window.location.href='index.php'</script>";
+        echo "<script>window.location.href='../index.php'</script>";
     } else {
         echo "<p class='text-danger'>Adresse e-mail ou mot de passe incorrect.</p>";
     }
@@ -25,5 +26,5 @@ if ($_POST) {
 </form>
 
 <?php
-include("footer.php")
+require_once ROOT . 'views/layout/footer.php'
 ?>

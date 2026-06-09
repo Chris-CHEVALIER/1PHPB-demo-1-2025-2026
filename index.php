@@ -1,4 +1,8 @@
-<?php require("header.php") ?>
+<?php
+require_once 'config.php';
+require_once ROOT . 'views/layout/header.php';
+$vehicles = $vehicleController->readAll();
+?>
 <h1>Accueil</h1>
 <h2>Mes véhicules</h2>
 <div class="d-flex justify-content-between gap-4 flex-wrap">
@@ -13,11 +17,11 @@
           <li><b>Prix : <?= $vehicle->getPrice() ?> €</b></li>
         </ul>
         <?php if ($_SESSION && $_SESSION["email"]): ?>
-          <a href="update.php?id=<?= $vehicle->getId() ?>" class="btn btn-warning">Modifier</a>
-          <a href="delete.php?id=<?= $vehicle->getId() ?>" class="btn btn-danger">Supprimer</a>
+          <a href="./views/update.php?id=<?= $vehicle->getId() ?>" class="btn btn-warning">Modifier</a>
+          <a href="./views/delete.php?id=<?= $vehicle->getId() ?>" class="btn btn-danger">Supprimer</a>
         <?php endif ?>
       </div>
     </div>
   <?php endforeach ?>
 </div>
-<?php require "footer.php" ?>
+<?php require_once ROOT . 'views/layout/footer.php'; ?>

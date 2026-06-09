@@ -1,4 +1,3 @@
-<?php session_start() ?>
 <!DOCTYPE html>
 <html lang="fr-FR">
 
@@ -8,27 +7,6 @@
     <title>Speed2000 - Accueil</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
-
-<?php
-
-spl_autoload_register(function (string $class) {
-    /* $path = str_contains($_SERVER["REQUEST_URI"], "index") || !str_contains($_SERVER["REQUEST_URI"], ".php") ? "." : "..";
-    if (str_contains($class, "Controller")) {
-        require "$path/controllers/$class.php";
-    } else {
-        require "$path/models/$class.php";
-    } */
-    require "$class.php";
-});
-
-$vehicleController = new VehicleController();
-$userController = new UserController();
-$vehicles = $vehicleController->readAll();
-
-/* $path = str_contains($_SERVER["REQUEST_URI"], "index") ? "./views/" : "./";
- */
-?>
-
 <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
@@ -43,17 +21,17 @@ $vehicles = $vehicleController->readAll();
                     </li>
                     <?php if ($_SESSION && $_SESSION["email"]): ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="create.php">Ajouter un véhicule</a>
+                            <a class="nav-link" href="<?= URL_RACINE ?>views/create.php">Ajouter un véhicule</a>
                         </li>
                     <?php endif ?>
                 </ul>
             </div>
             <?php if ($_SESSION && $_SESSION["email"]): ?>
-                <a class="nav-link" href="logout.php">Se déconnecter</a>
+                <a class="nav-link" href="<?= URL_RACINE ?>views/logout.php">Se déconnecter</a>
             <?php else: ?>
-                <a class="nav-link" href="register.php">S'inscrire</a>
+                <a class="nav-link" href="<?= URL_RACINE ?>views/register.php">S'inscrire</a>
                 -
-                <a class="nav-link" href="login.php">Se connecter</a>
+                <a class="nav-link" href="<?= URL_RACINE ?>views/login.php">Se connecter</a>
             <?php endif ?>
         </div>
     </nav>

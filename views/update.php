@@ -1,16 +1,36 @@
-<?php require("header.php");
+<?php
+require_once '../config.php';
+require_once ROOT . 'views/layout/header.php';
 
 if (!$_SESSION || !$_SESSION["email"]) {
-  echo "<script>window.location.href='index.php'</script>";
+  echo "<script>window.location.href='../index.php'</script>";
 }
 
 // Modification PHP
 $vehicle = $vehicleController->read($_GET["id"]);
 
 if ($_POST) {
-  $vehicle->hydrate($_POST);
-  $vehicleController->update($vehicle);
-  echo "<script>window.location.href='index.php'</script>";
+  if ($_FILES["image"]["size"] < 2000000) {
+    $fileName = $_FILES["image"]["name"];
+    if (!is_dir(ROOT . "uploads/")) {
+      mkdir(ROOT . "uploads/", 0777, true);
+    }
+    $serverTargetFile = ROOT . "uploads/" . $fileName;
+    $dbTargetFile = "uploads/" . $fileName;
+    $fileExtension = pathinfo($serverTargetFile, PATHINFO_EXTENSION); // "png", "jpeg", "pdf", etc.
+    if (in_array(strtolower($fileExtension), ["png", "jpg", "webp", "gif", "jpeg", "heic"])) {
+      if (move_uploaded_file($_FILES["image"]["tmp_name"], $serverTargetFile)) {
+        $_POST["image"] = $dbTargetFile;
+        $vehicle->hydrate($_POST);
+        $vehicleController->update($vehicle);
+        echo "<script>window.location.href='../index.php'</script>";
+      }
+    } else {
+      echo "<p class='text-danger'>Le format du fichier est incorrect.</p>";
+    }
+  } else {
+    echo "<p class='text-danger'>Le fichier est trop volumineux.</p>";
+  }
 }
 
 ?>
@@ -34,4 +54,4 @@ if ($_POST) {
   <input type="submit" class="btn btn-warning mt-3" value="Modifier">
 </form>
 
-<?php require "footer.php" ?>
+<?php require_once ROOT . 'views/layout/footer.php' ?>

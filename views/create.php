@@ -1,24 +1,27 @@
-<?php require("header.php");
+<?php
+require_once '../config.php';
+require_once ROOT . 'views/layout/header.php';
 
 if (!$_SESSION || !$_SESSION["email"]) {
-  echo "<script>window.location.href='index.php'</script>";
+  echo "<script>window.location.href='../index.php'</script>";
 }
 
 // Ajouter le véhicule
 if ($_POST) {
   if ($_FILES["image"]["size"] < 2000000) {
     $fileName = $_FILES["image"]["name"];
-    if (!is_dir("uploads/")) {
-      mkdir("uploads/");
+    if (!is_dir(ROOT . "uploads/")) {
+      mkdir(ROOT . "uploads/", 0777, true);
     }
-    $targetFile = "uploads/$fileName";
-    $fileExtension = pathinfo($targetFile, PATHINFO_EXTENSION); // "png", "jpeg", "pdf", etc.
+    $serverTargetFile = ROOT . "uploads/" . $fileName;
+    $dbTargetFile = "uploads/" . $fileName;
+    $fileExtension = pathinfo($serverTargetFile, PATHINFO_EXTENSION); // "png", "jpeg", "pdf", etc.
     if (in_array(strtolower($fileExtension), ["png", "jpg", "webp", "gif", "jpeg", "heic"])) {
-      if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFile)) {
-        $_POST["image"] = $targetFile;
+      if (move_uploaded_file($_FILES["image"]["tmp_name"], $serverTargetFile)) {
+        $_POST["image"] = $dbTargetFile;
         $newVehicle = new Vehicle($_POST);
         $vehicleController->create($newVehicle);
-        echo "<script>window.location.href='index.php'</script>";
+        echo "<script>window.location.href='../index.php'</script>";
       }
     } else {
       echo "<p class='text-danger'>Le format du fichier est incorrect.</p>";
@@ -36,7 +39,7 @@ if ($_POST) {
   <label for="model">Modèle</label>
   <input type="text" class="form-control" name="model" id="model" placeholder="Le modèle" required minlength="3" maxlength="30">
   <label for="doorsNumber">Nombres de portes</label>
-  <input type="number" class="form-control" name="doorsNumber" id="doorsNumber" placeholder="Nombres de portes du véhicule" required min="0" max="10">
+  <input type="number" class="form-control" name="doorsNumber" id="doorsNumber" placeholder="Nombres de portes du véhicule" required min="3" max="5">
   <label for="color">Couleur</label>
   <input type="color" class="form-control" name="color" id="color" placeholder="La couleur" required>
   <label for="horses">Nombres de chevaux</label>
@@ -49,4 +52,4 @@ if ($_POST) {
   <input type="submit" class="btn btn-success mt-3" value="Ajouter">
 </form>
 
-<?php require "footer.php" ?>
+<?php require_once ROOT . 'views/layout/footer.php' ?>
