@@ -1,7 +1,7 @@
 <?php
 session_start();
 define('ROOT', __DIR__ . '/');
-define('URL_RACINE', 'http://localhost/demo/');
+define('URL_RACINE', 'https://speed-2000.infinityfree.me');
 
 spl_autoload_register(function (string $class) {
     $dirs = [

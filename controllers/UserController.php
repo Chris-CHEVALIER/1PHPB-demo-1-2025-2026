@@ -6,12 +6,12 @@ class UserController
 
     public function __construct()
     {
-        $dbName = "speed-2000";
-        $port = 8889;
-        $username = "root";
-        $password = "root";
+        $dbName = "if0_42155221_sport_2000";
+        $port = 3306;
+        $username = "if0_42155221";
+        $password = "k1a6KJh54pvOEj";
         try {
-            $this->setDb(new PDO("mysql:host=localhost;dbname=$dbName;port=$port;charset=utf8mb4", $username, $password));
+            $this->setDb(new PDO("mysql:host=sql301.infinityfree.com;dbname=$dbName;port=$port;charset=utf8mb4", $username, $password));
         } catch (PDOException $error) {
             echo "<p style='color: red'>{$error->getMessage()}</p>";
         }
